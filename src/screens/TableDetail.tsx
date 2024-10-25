@@ -51,6 +51,20 @@ export default function TableDetail({ route }) {
     setRows(newRows);
   };
 
+  // Función para actualizar el encabezado de una columna
+  const updateColumnHeader = (text, colIndex) => {
+    const newHeaders = [...columnHeaders];
+    newHeaders[colIndex] = text;
+    setColumnHeaders(newHeaders);
+  };
+
+  // Función para actualizar el encabezado de una fila
+  const updateRowHeader = (text, rowIndex) => {
+    const newHeaders = [...rowHeaders];
+    newHeaders[rowIndex] = text;
+    setRowHeaders(newHeaders);
+  };
+
   // Función para agregar una nueva fila
   const addRow = () => {
     const newRow = Array(columnHeaders.length).fill(""); // Nueva fila con la misma cantidad de columnas
@@ -145,8 +159,7 @@ export default function TableDetail({ route }) {
                 {columnHeaders.map((header, colIndex) => (
                   <TouchableOpacity
                     key={colIndex}
-                    onPress={clearSelection} // Deseleccionar al tocar otra columna
-                    onLongPress={() => handleColumnLongPress(colIndex)} // Seleccionar toda la columna con long press
+                    onLongPress={() => handleColumnLongPress(colIndex)}
                   >
                     <View
                       style={[
@@ -154,7 +167,13 @@ export default function TableDetail({ route }) {
                         selectedColumn === colIndex && styles.selectedColumn,
                       ]}
                     >
-                      <Text>{header}</Text>
+                      <TextInput
+                        value={header}
+                        onChangeText={(text) =>
+                          updateColumnHeader(text, colIndex)
+                        }
+                        style={{ textAlign: "center" }}
+                      />
                     </View>
                   </TouchableOpacity>
                 ))}
@@ -165,8 +184,7 @@ export default function TableDetail({ route }) {
                 <View key={rowIndex} style={{ flexDirection: "row" }}>
                   {/* Celda identificadora de fila (1, 2, 3, ...) */}
                   <TouchableOpacity
-                    onPress={clearSelection} // Deseleccionar al tocar otra fila
-                    onLongPress={() => handleRowLongPress(rowIndex)} // Seleccionar toda la fila con long press
+                    onLongPress={() => handleRowLongPress(rowIndex)}
                   >
                     <View
                       style={[
@@ -174,7 +192,11 @@ export default function TableDetail({ route }) {
                         selectedRow === rowIndex && styles.selectedRow,
                       ]}
                     >
-                      <Text>{rowHeaders[rowIndex]}</Text>
+                      <TextInput
+                        value={rowHeaders[rowIndex].toString()}
+                        onChangeText={(text) => updateRowHeader(text, rowIndex)}
+                        style={{ textAlign: "center" }}
+                      />
                     </View>
                   </TouchableOpacity>
 
@@ -199,7 +221,6 @@ export default function TableDetail({ route }) {
                             selectedCell.col === colIndex
                               ? styles.selectedCell
                               : null,
-                            // Aplicar el color azul para la fila o columna seleccionada
                             selectedRow === rowIndex && styles.selectedRow,
                             selectedColumn === colIndex &&
                               styles.selectedColumn,
@@ -249,7 +270,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#d0eaff", // Color para toda la columna seleccionada (azul)
   },
   selectedCell: {
-    backgroundColor: "#a4de02", // Color verde para celdas seleccionadas individualmente
+    backgroundColor: "#B5D2B3", // Color verde para celdas seleccionadas individualmente
   },
   iconButton: {
     flexDirection: "row",
