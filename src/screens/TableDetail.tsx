@@ -218,7 +218,7 @@ export default function TableDetail({ route }) {
           <ScrollView horizontal>
             <View>
               <View style={{ flexDirection: "row" }}>
-                <View style={styles.cell}>
+                <View style={[styles.headerCell, { width: 80 }]}>
                   <Text></Text>
                 </View>
                 {columnHeaders.map((header, colIndex) => (
@@ -226,7 +226,7 @@ export default function TableDetail({ route }) {
                     key={colIndex}
                     onLongPress={() => handleColumnLongPress(colIndex)}
                   >
-                    <View style={[styles.cell]}>
+                    <View style={[styles.headerCell]}>
                       <TextInput
                         value={header}
                         onChangeText={(text) =>
@@ -245,7 +245,7 @@ export default function TableDetail({ route }) {
                   <TouchableOpacity
                     onLongPress={() => handleRowLongPress(rowIndex)}
                   >
-                    <View style={[styles.cell]}>
+                    <View style={styles.rowHeaderCell}>
                       <TextInput
                         value={rowHeaders[rowIndex].toString()}
                         onChangeText={(text) => updateRowHeader(text, rowIndex)}
@@ -303,7 +303,25 @@ const styles = StyleSheet.create({
   cell: {
     width: 100,
     height: 50,
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#ffffff", // Fondo blanco para celdas normales
+    borderWidth: 1,
+    borderColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerCell: {
+    width: 100,
+    height: 40, // Altura reducida para encabezados de columna
+    backgroundColor: "#f2f2f2", // Fondo gris claro para encabezados de columna
+    borderWidth: 1,
+    borderColor: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  rowHeaderCell: {
+    width: 80, // Ancho reducido para encabezados de fila
+    height: 50,
+    backgroundColor: "#f2f2f2", // Fondo gris claro para encabezados de fila
     borderWidth: 1,
     borderColor: "#000",
     justifyContent: "center",
